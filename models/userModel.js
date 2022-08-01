@@ -31,6 +31,11 @@ const userSchema = new Schema({
         type: Number,
         required: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: 'user'
+    }
 }, {timestamps: true})
 
 module.exports = mongoose.model('User', userSchema)
