@@ -11,10 +11,10 @@ const allUserContacts = async (req, res) => {
 }
 
 const createUserContact = async (req, res) => {
-    const {fName, lName, address, phone, bday} = req.body
+    const {fName, lName, email, address, phone, bday} = req.body
 
     try {
-        const newContact = await Contact.create({fName, lName, address, phone, bday})
+        const newContact = await Contact.create({fName, lName, email, address, phone, bday})
         res.status(200).json(newContact)
 
     } catch (error) {
@@ -57,7 +57,7 @@ const updateUserContact = async (req, res) => {
             return res.status(400).json({error: 'contact not found'})
         }
         res.status(200).json(foundContact)
-        
+
     } catch (error) {
         res.status(400).json({mssg: error.message})
     }
