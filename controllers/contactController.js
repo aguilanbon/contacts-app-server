@@ -11,10 +11,8 @@ const allUserContacts = async (req, res) => {
 }
 
 const createUserContact = async (req, res) => {
-    const {fName, lName, email, address, phone, bday} = req.body
-
     try {
-        const newContact = await Contact.create({fName, lName, email, address, phone, bday})
+        const newContact = await Contact.create({...req.body})
         res.status(200).json(newContact)
 
     } catch (error) {
