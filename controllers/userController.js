@@ -10,6 +10,25 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+const logInUser = async (req, res) => {
+    const {username, password} = req.body
+
+    try {
+        const user = await User.findOne({username})
+        if(!user) {
+            res.status(404).json({msg: 'User not found'})
+        }
+
+        if(password !== user.password) {
+            res.status(404).json({msg: 'incorrect password'})
+        }
+
+        res.status(200).json(user)
+        
+    } catch (error) {
+    }
+}
+
 const createUser = async (req,res) => {
     try {
         const user = await User.create({...req.body})
@@ -21,5 +40,6 @@ const createUser = async (req,res) => {
 
 module.exports = {
     getAllUsers,
-    createUser
+    createUser,
+    logInUser
 }
