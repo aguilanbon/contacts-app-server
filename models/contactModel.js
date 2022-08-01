@@ -26,6 +26,11 @@ const contactSchema = new Schema({
     bday: {
         type: Date,
         required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        default: 'user'
     }
 }, {timestamps: true})
 

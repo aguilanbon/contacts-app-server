@@ -4,7 +4,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const contactsRoutes = require('./routes/contacts')
+const contactsRoutes = require('./routes/contactRoutes')
 
 const app = express()
 
