@@ -1,4 +1,5 @@
 const Contact = require('../models/contactModel')
+const User = require('../models/userModel')
 const mongoose = require('mongoose')
 
 const allUserContacts = async (req, res) => {
@@ -11,8 +12,12 @@ const allUserContacts = async (req, res) => {
 }
 
 const createUserContact = async (req, res) => {
+
+    const {uId} = req.body
+    
     try {
-        const newContact = await Contact.create({...req.body})
+        const newContact = await Contact.create({...req.body, createdBy: uId})
+        const user = await User.findOneAndUpdate({_id: uId}, {$push: {contacts: newContact._id }})
         res.status(200).json(newContact)
 
     } catch (error) {
@@ -22,13 +27,16 @@ const createUserContact = async (req, res) => {
 
 const getUserContact = async (req, res) => {
     const {id} = req.params
+    const filter = {
+        createdBy: id
+    }
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'No such contact'})
     }
 
     try {
-        const foundContact = await Contact.findById(id)
+        const foundContact = await Contact.find(filter)
         
         if(!foundContact) {
             return res.status(400).json({error: 'contact not found'})
@@ -50,7 +58,6 @@ const updateUserContact = async (req, res) => {
 
     try {
         const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body})
-
         if(!foundContact) {
             return res.status(400).json({error: 'contact not found'})
         }

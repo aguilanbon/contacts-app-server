@@ -31,6 +31,10 @@ const contactSchema = new Schema({
         type: String,
         required: true,
         default: 'user'
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {timestamps: true})
 

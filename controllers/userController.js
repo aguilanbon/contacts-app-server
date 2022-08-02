@@ -14,7 +14,7 @@ const logInUser = async (req, res) => {
     const {username, password} = req.body
 
     try {
-        const user = await User.findOne({username})
+        const user = await User.findOne({username}).populate('contacts')
         if(!user) {
             res.status(404).json({msg: 'User not found'})
         }
@@ -22,7 +22,6 @@ const logInUser = async (req, res) => {
         if(password !== user.password) {
             res.status(404).json({msg: 'incorrect password'})
         }
-
         res.status(200).json(user)
         
     } catch (error) {

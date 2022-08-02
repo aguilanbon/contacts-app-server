@@ -35,7 +35,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         default: 'user'
-    }
+    },
+    contacts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Contact'
+    }]
 }, {timestamps: true})
 
 module.exports = mongoose.model('User', userSchema)
