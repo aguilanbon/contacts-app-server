@@ -37,8 +37,31 @@ const createUser = async (req,res) => {
     }
 }
 
+const findUser = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const user = await User.findById({_id: id})
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+const editUser = async (req, res) => {
+    const {id} = req.params
+    try {
+        const user = await User.findOneAndUpdate({_id: id}, {...req.body})
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     createUser,
-    logInUser
+    logInUser,
+    findUser,
+    editUser
 }
