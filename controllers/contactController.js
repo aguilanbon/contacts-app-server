@@ -27,6 +27,27 @@ const createUserContact = async (req, res) => {
 
 const getUserContact = async (req, res) => {
     const {id} = req.params
+
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'No such contact'})
+    }
+
+    try {
+        const foundContact = await Contact.findById(id)
+        
+        if(!foundContact) {
+            return res.status(400).json({error: 'contact not found'})
+        }
+
+        res.status(200).json(foundContact)
+
+    } catch (error) {
+        res.status(400).json({mssg: error.message})
+    }
+}
+
+const getUserContacts = async (req, res) => {
+    const {id} = req.params
     const filter = {
         createdBy: id
     }
@@ -93,6 +114,7 @@ const deleteUserContact = async (req, res) => {
 module.exports = {
     allUserContacts,
     createUserContact,
+    getUserContacts,
     getUserContact,
     updateUserContact,
     deleteUserContact
