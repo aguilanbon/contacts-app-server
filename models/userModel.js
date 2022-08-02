@@ -27,6 +27,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    bday: {
+        type: Date,
+        required: true
+    },
     phone: {
         type: Number,
         required: true
