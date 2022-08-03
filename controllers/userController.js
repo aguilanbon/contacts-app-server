@@ -99,7 +99,7 @@ const acceptRequest = async (req, res) => {
 
     try {
         const user = await User.findOneAndUpdate({_id: reqId}, {$pull : {requests: id}, $push : {friends: id}})
-        const otherUser = await User.findOneAndUpdate({_id: id}, {$push : {friends: id}})
+        const otherUser = await User.findOneAndUpdate({_id: id}, {$push : {friends: user._id}})
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({error: error.message})
