@@ -41,7 +41,7 @@ const findUser = async (req, res) => {
     const {id} = req.params
 
     try {
-        const user = await User.findById({_id: id}).populate('requests').populate('friends')
+        const user = await User.findById({_id: id}).populate('requests').populate('friends').populate('contacts')
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({error: error.message})
@@ -106,6 +106,21 @@ const acceptRequest = async (req, res) => {
     }
 }
 
+const shareUserContact = async (req, res) => {
+    const {id} = req.params
+    const {cId} = req.body
+
+    try {
+        const user = await User.findOneAndUpdate({_id: id}, {$push: {contacts: cId}})
+        res.status(200).json(user)
+        
+    } catch (error) {
+        res.status(400).json({mssg: error.message})
+    }
+}
+
+
+
 module.exports = {
     getAllUsers,
     createUser,
@@ -115,5 +130,6 @@ module.exports = {
     deleteUser,
     sendFriendRequest,
     deleteRequest,
-    acceptRequest
+    acceptRequest,
+    shareUserContact
 }
