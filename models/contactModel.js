@@ -35,6 +35,11 @@ const contactSchema = new Schema({
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    contactImage: {
+        type: String,
+        required: true,
+        default: 'avatar'
     }
 }, {timestamps: true})
 
