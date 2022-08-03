@@ -69,11 +69,24 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const sendFriendRequest = async (req, res) => {
+    const {id} = req.params
+    const {reqId} = req.body
+
+    try {
+        const user = await User.findOneAndUpdate({_id: id}, {$push : {requests: reqId}})
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     createUser,
     logInUser,
     findUser,
     editUser,
-    deleteUser
+    deleteUser,
+    sendFriendRequest
 }

@@ -43,7 +43,19 @@ const userSchema = new Schema({
     contacts: [{
         type: Schema.Types.ObjectId,
         ref: 'Contact'
-    }]
+    }],
+    requests: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    friends: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
 }, {timestamps: true})
 
 module.exports = mongoose.model('User', userSchema)
