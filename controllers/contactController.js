@@ -57,7 +57,7 @@ const getUserContacts = async (req, res) => {
     }
 
     try {
-        const foundContact = await Contact.find(filter)
+        const foundContact = await Contact.find(filter).sort({updatedAt: -1})
         
         if(!foundContact) {
             return res.status(400).json({error: 'contact not found'})
