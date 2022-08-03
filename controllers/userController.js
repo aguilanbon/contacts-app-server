@@ -41,7 +41,7 @@ const findUser = async (req, res) => {
     const {id} = req.params
 
     try {
-        const user = await User.findById({_id: id}).populate('requests')
+        const user = await User.findById({_id: id}).populate('requests').populate('friends')
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({error: error.message})
