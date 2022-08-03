@@ -93,6 +93,18 @@ const deleteRequest = async (req,res) => {
     }
 }
 
+const acceptRequest = async (req, res) => {
+    const {id} = req.params
+    const {reqId} = req.body
+
+    try {
+        const user = await User.findOneAndUpdate({_id: reqId}, {$pull : {requests: id}, $push : {friends: id}})
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     createUser,
@@ -101,5 +113,6 @@ module.exports = {
     editUser,
     deleteUser,
     sendFriendRequest,
-    deleteRequest
+    deleteRequest,
+    acceptRequest
 }
