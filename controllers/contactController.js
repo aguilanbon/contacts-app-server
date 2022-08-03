@@ -21,7 +21,7 @@ const createUserContact = async (req, res) => {
         res.status(200).json(newContact)
 
     } catch (error) {
-        res.status(400).json({mssg: error.message})
+        res.status(400).json({mssg: 'Please fill in all fields'})
     }
 }
 
