@@ -1,5 +1,5 @@
 const User = require('../models/userModel')
-
+const bcrypt = require('bcrypt')
 
 const getAllUsers = async (req, res) => {
     try {
@@ -18,8 +18,8 @@ const logInUser = async (req, res) => {
         if(!user) {
             res.status(404).json({msg: 'username or password incorrect'})
         }
-
-        if(password !== user.password) {
+        const verifyPw = await bcrypt.compare(password, user.password)
+        if(!verifyPw) {
             res.status(404).json({msg: 'username or password incorrect'})
         }
         res.status(200).json(user)
