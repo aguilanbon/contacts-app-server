@@ -19,8 +19,8 @@ const upload = multer({storage: storage})
 router.get('/', allUserContacts)
 router.get('/single/:id', getUserContact)
 router.get('/:id', getUserContacts)
-router.post('/',upload.single('contactImage') ,createUserContact)
-router.patch('/:id',upload.single('contactImage') ,updateUserContact)
+router.post('/',createUserContact)
+router.patch('/:id',updateUserContact)
 router.delete('/:id', deleteUserContact)
 
 
