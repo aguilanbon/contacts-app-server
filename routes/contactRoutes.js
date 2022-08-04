@@ -20,7 +20,7 @@ router.get('/', allUserContacts)
 router.get('/single/:id', getUserContact)
 router.get('/:id', getUserContacts)
 router.post('/',createUserContact)
-router.patch('/:id',updateUserContact)
+router.patch('/:id',upload.single('contactImage') ,updateUserContact)
 router.delete('/:id', deleteUserContact)
 
 
