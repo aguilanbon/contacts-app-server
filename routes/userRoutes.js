@@ -1,5 +1,5 @@
 const express = require('express')
-const { getAllUsers, createUser, logInUser, findUser, editUser, deleteUser, sendFriendRequest, deleteRequest, acceptRequest, shareUserContact } = require('../controllers/userController')
+const { getAllUsers, createUser, logInUser, findUser, editUser, deleteUser, sendFriendRequest, deleteRequest, acceptRequest, shareUserContact, deleteFriend } = require('../controllers/userController')
 
 const router = express.Router()
 
@@ -10,6 +10,7 @@ router.patch('/:id', editUser)
 router.patch('/fr/:id', sendFriendRequest)
 router.patch('/frd/:id', deleteRequest)
 router.patch('/fra/:id', acceptRequest)
+router.patch('/frdel/:id', deleteFriend)
 router.patch('/share/:id', shareUserContact)
 router.delete('/:id', deleteUser)
 router.post('/signin', logInUser)

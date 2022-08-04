@@ -119,6 +119,19 @@ const shareUserContact = async (req, res) => {
     }
 }
 
+const deleteFriend = async (req, res) => {
+    const {id} = req.params
+    const {uId} = req.body
+
+    try {
+        const user = await User.findOneAndUpdate({_id: uId}, {$pull : {friends: id}})
+        const foundFriend = await User.findOneAndUpdate({_id: id}, {$pull : {friends: uId}})
+       await res.status(200).json({id, uId})
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 
 
 module.exports = {
@@ -131,5 +144,6 @@ module.exports = {
     sendFriendRequest,
     deleteRequest,
     acceptRequest,
-    shareUserContact
+    shareUserContact,
+    deleteFriend
 }
