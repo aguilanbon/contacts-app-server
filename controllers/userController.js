@@ -50,8 +50,10 @@ const findUser = async (req, res) => {
 
 const editUser = async (req, res) => {
     const {id} = req.params
+    const photo = req.file.filename
+
     try {
-        const user = await User.findOneAndUpdate({_id: id}, {...req.body})
+        const user = await User.findOneAndUpdate({_id: id}, {...req.body, userImage: photo})
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({error: error.message})

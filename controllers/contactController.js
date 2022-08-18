@@ -72,13 +72,14 @@ const getUserContacts = async (req, res) => {
 
 const updateUserContact = async (req, res) => {
     const {id} = req.params
+    const photo = req.file.filename
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'No such contact'})
     }
 
     try {
-        const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body})
+        const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body, contactImage: photo})
         if(!foundContact) {
             return res.status(400).json({error: 'contact not found'})
         }
