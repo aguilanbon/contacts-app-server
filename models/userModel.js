@@ -57,6 +57,11 @@ const userSchema = new Schema({
             ref: 'User'
         }
     ],
+    userImage: {
+        type: String,
+        required: true,
+        default: 'avatar'
+    }
 }, {timestamps: true})
 
 userSchema.pre('save', async function(next) {
