@@ -118,9 +118,16 @@ const shareUserContact = async (req, res) => {
     const {cId} = req.body
 
     try {
-        const user = await User.findOneAndUpdate({_id: id}, {$push: {contacts: cId}})
-        res.status(200).json(user)
-        
+        const foundUser = await User.findOne({_id: id})
+
+        if(foundUser.contacts.includes(cId)) {
+            res.status(404).json({mssg: 'Contact already exists in his contacts list'})
+        }
+        else {
+            const user = await User.findOneAndUpdate({_id: id}, {$push: {contacts: cId}})
+            res.status(200).json(user)
+        }
+
     } catch (error) {
         res.status(400).json({mssg: error.message})
     }
