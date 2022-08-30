@@ -105,19 +105,26 @@ const updateUserContact = async (req, res) => {
 
 const deleteUserContact = async (req, res) => {
     const {id} = req.params
+    const {uId} = req.body
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'No such contact'})
     }
 
     try {
-        const foundContact = await Contact.findOneAndDelete({_id: id})
+        const user = await User.findById({_id: uId})
+        const contact = await Contact.findById({_id: id})
 
-        if(!foundContact) {
-            return res.status(400).json({error: 'contact not found'})
+        if(user._id.toString() === contact.createdBy.toString()) {
+            const foundContact = await Contact.findOneAndDelete({_id: id})
+            if(!foundContact) {
+                return res.status(400).json({error: 'contact not found'})
+            }
+            res.status(200).json({mssg: 'contact deleted'})
+        } else {
+            res.status(400).json({mss: 'Unauthorized'})
         }
 
-        res.status(200).json({mssg: 'contact deleted'})
     } catch (error) {
         res.status(400).json({mssg: error.message})
     }
