@@ -16,6 +16,10 @@ const createUserContact = async (req, res) => {
     const {uId} = req.body
     
     try {
+        const validUser = await User.findById(uId)
+        if(!validUser) {
+            res.status(404).json({mssg: 'Unauthorized, Please Register'})
+        }
         const newContact = await Contact.create({...req.body, createdBy: uId})
         const user = await User.findOneAndUpdate({_id: uId}, {$push: {contacts: newContact._id }})
         res.status(200).json(newContact)
