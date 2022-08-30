@@ -106,7 +106,7 @@ const acceptRequest = async (req, res) => {
 
     try {
         const user = await User.findOneAndUpdate({_id: reqId}, {$pull : {requests: id}, $push : {friends: id}})
-        const otherUser = await User.findOneAndUpdate({_id: id}, {$push : {friends: user._id}})
+        await User.findOneAndUpdate({_id: id}, {$push : {friends: user._id}})
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({error: error.message})
@@ -131,8 +131,8 @@ const deleteFriend = async (req, res) => {
     const {uId} = req.body
 
     try {
-        const user = await User.findOneAndUpdate({_id: uId}, {$pull : {friends: id}})
-        const foundFriend = await User.findOneAndUpdate({_id: id}, {$pull : {friends: uId}})
+        await User.findOneAndUpdate({_id: uId}, {$pull : {friends: id}})
+        await User.findOneAndUpdate({_id: id}, {$pull : {friends: uId}})
        await res.status(200).json({id, uId})
     } catch (error) {
         res.status(400).json({error: error.message})
