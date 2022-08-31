@@ -122,7 +122,8 @@ const deleteUserContact = async (req, res) => {
             }
             res.status(200).json({mssg: 'contact deleted'})
         } else {
-            res.status(400).json({mss: 'Unauthorized'})
+            await User.findOneAndUpdate({_id: uId}, {$pull: {contacts: id}})
+            res.status(200).json({mssg: 'contact deleted'})
         }
 
     } catch (error) {
