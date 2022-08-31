@@ -76,27 +76,33 @@ const getUserContacts = async (req, res) => {
 
 const updateUserContact = async (req, res) => {
     const {id} = req.params
+    const {uId} = req.body
     
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'No such contact'})
     }
-    
-    try {
-        if(req.file) {
-            const photo = req.file.filename
-            const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body, contactImage: photo})
-                if(!foundContact) {
-                    return res.status(400).json({error: 'contact not found'})
-                }
-                res.status(200).json(foundContact)
-        } else {
-            const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body})
-                if(!foundContact) {
-                    return res.status(400).json({error: 'contact not found'})
-                }
-                res.status(200).json(foundContact)
-        }
 
+    try {
+        const contact = await Contact.findById({_id: id})
+
+        if(uId.toString() === contact.createdBy._id.toString()) {
+            if(req.file) {
+                const photo = req.file.filename
+                const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body, contactImage: photo})
+                    if(!foundContact) {
+                        return res.status(400).json({error: 'contact not found'})
+                    }
+                    res.status(200).json(foundContact)
+            } else {
+                const foundContact = await Contact.findOneAndUpdate({_id: id}, {...req.body})
+                if(!foundContact) {
+                    return res.status(400).json({error: 'contact not found'})
+                }
+                res.status(200).json(foundContact)
+            }
+        } else {
+            res.status(404).json({mssg: 'Unauthorized'})
+        }
     } catch (error) {
         res.status(400).json({mssg: error.message})
     }
