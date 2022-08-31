@@ -140,7 +140,7 @@ const deleteFriend = async (req, res) => {
     try {
         await User.findOneAndUpdate({_id: uId}, {$pull : {friends: id}})
         await User.findOneAndUpdate({_id: id}, {$pull : {friends: uId}})
-       await res.status(200).json({id, uId})
+        await res.status(200).json({id, uId})
     } catch (error) {
         res.status(400).json({error: error.message})
     }

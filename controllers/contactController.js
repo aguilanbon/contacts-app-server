@@ -12,7 +12,6 @@ const allUserContacts = async (req, res) => {
 }
 
 const createUserContact = async (req, res) => {
-
     const {uId} = req.body
     
     try {
