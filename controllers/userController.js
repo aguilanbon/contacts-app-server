@@ -50,15 +50,20 @@ const findUser = async (req, res) => {
 
 const editUser = async (req, res) => {
     const {id} = req.params
+    const {uid} = req.body
     
     try {
-        if(req.file) {
-            const photo = req.file.filename
-            const user = await User.findOneAndUpdate({_id: id}, {...req.body, userImage: photo})
-        res.status(200).json(user)
+        if(id === uid) {
+            if(req.file) {
+                const photo = req.file.filename
+                const user = await User.findOneAndUpdate({_id: id}, {...req.body, userImage: photo})
+                res.status(200).json(user)
+            } else {
+                const user = await User.findOneAndUpdate({_id: id}, {...req.body})
+                res.status(200).json(user)
+            }
         } else {
-            const user = await User.findOneAndUpdate({_id: id}, {...req.body})
-        res.status(200).json(user)
+            res.status(404).json({mssg: 'Unauthorized'})
         }
     } catch (error) {
         res.status(400).json({error: error.message})
